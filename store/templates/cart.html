@@ -1,0 +1,66 @@
+<html>
+<head>
+	<script src= "http://code.jquery.com/jquery-2.1.1.js"> </script>
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+		<nav class = "navbar navbar-default navbar-fixed-top" role ="navigation">
+		<ul class = "nav navbar-nav navbar-left">
+			<li><a class="navbar-brand" href="/">Home</a></li>
+				<li><a href="/admin-login/">Admin Login</a></li>
+			</ul>
+		<ul class = "nav navbar-nav navbar-right">
+			<li><a class="navbar-brand" href="/cart/">Cart <b>({{cart_size}} items)</b></a></li>
+			<li><a href = "/cart/checkout"> Checkout!</a></li>
+		</ul>
+	</nav>
+	<br>
+	<br>
+	<div class = "page-header" style="text-align:center">
+
+		<h2>MyStore <br> <br> <small>The place to shop</small></h2>
+	</div>
+	<style type = "text/css">
+	.centerdv
+	{
+			width: 45%;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+	}
+	.imgscal
+	{
+		max-width:64;
+		max-height:64;
+
+	}
+
+	</style>
+	<div class = "container centerdv well ">
+			<div>
+			  		<h3>Total Price: <br> <br><span class="label label-success">{{total_price}}</span></h3>
+			</div>
+			<br>
+			{% for item in cart_items%}
+
+			<div class="media">
+			<a class="pull-left" href="#">
+			    <img class="media-object imgscal" src={{item.imglink}} alt="..."/>
+			  </a>
+			  <div class="media-body">
+			    <h4 class="media-heading">{{item.name}}</h4>
+			    {{item.description}}
+			    <span class="badge pull-right">{{item.price}}</span>
+			  </div>
+			  <form method = "post" action = "remove/">
+			  	{% csrf_token %}
+			  	<input type="hidden" name="obj_id" value={{item.id}} />
+			  <input type="submit" value = "Remove" class = "btn btn-danger pull-right">
+			</form>
+			</div>
+			{% endfor %}	
+			<button class = "btn btn-primary btn-lg" onclick = "window.location = '/cart/checkout';">Checkout</button>
+	</div>
+</body>
+</html>
